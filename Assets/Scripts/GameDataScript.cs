@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 [CreateAssetMenu(fileName = "GameData", menuName = "Game Data", order = 51)]
 public class GameDataScript : ScriptableObject
 {
@@ -12,6 +13,12 @@ public class GameDataScript : ScriptableObject
     public int level = 1;
     public int balls = 6;
     public int points = 0;
+
+    public BonusBase[] bonuses;
+    public int fireBonusChance;
+    public int steelBonusChance;
+    public int normBonusChance;
+
     public void Reset()
     {
         level = 1;
@@ -36,6 +43,23 @@ public class GameDataScript : ScriptableObject
         PlayerPrefs.SetInt("pointsToBall", pointsToBall);
         PlayerPrefs.SetInt("music", music ? 1 : 0);
         PlayerPrefs.SetInt("sound", sound ? 1 : 0);
+    }
+    public BonusBase GetRandomBonus()
+    {
+        int totalChance = fireBonusChance + steelBonusChance + normBonusChance;
+        int randomValue = Random.Range(0, totalChance);
+        if (randomValue < fireBonusChance)
+        {
+            return bonuses[0];
+        }
+        else if (randomValue < fireBonusChance + steelBonusChance)
+        {
+            return bonuses[1];
+        }
+        else
+        {
+            return bonuses[2];
+        }
     }
 
     // Start is called before the first frame update

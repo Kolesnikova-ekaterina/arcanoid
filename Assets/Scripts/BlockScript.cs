@@ -7,10 +7,11 @@ using TMPro;
 public class BlockScript : MonoBehaviour
 {
     public GameObject textObject;
-    TMP_Text textComponent;
+    protected TMP_Text textComponent;
     public int hitsToDestroy;
     public int points;
-    PlayerScript playerScript;
+    protected PlayerScript playerScript;
+    public int ballPower;
 
     // Start is called before the first frame update
     void Start()
@@ -26,12 +27,13 @@ public class BlockScript : MonoBehaviour
  .GetComponent<PlayerScript>();
 
     }
-    void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         {
-            hitsToDestroy--;
-            if (hitsToDestroy == 0)
+            hitsToDestroy-=ballPower;
+            if (hitsToDestroy <= 0)
             {
+                hitsToDestroy = int.MaxValue;
                 print(points);
                 Destroy(gameObject);
                 playerScript.BlockDestroyed(points);

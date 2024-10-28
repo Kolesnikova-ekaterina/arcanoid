@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 5449308555101902466}
   - component: {fileID: 8945017827331596383}
   - component: {fileID: 1018402493514673260}
-  - component: {fileID: 8369229291584085873}
+  - component: {fileID: 4035560767673208550}
   m_Layer: 11
   m_Name: Green Block
   m_TagString: Block
@@ -368,7 +368,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.17, y: 0.57}
   m_EdgeRadius: 0
---- !u!114 &8369229291584085873
+--- !u!114 &4035560767673208550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -377,9 +377,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 9163486918007037734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11f8daeebafd0ed4f8dde91b57001c99, type: 3}
+  m_Script: {fileID: 11500000, guid: 97b164f848e9c884fbe0fca3b2d83011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textObject: {fileID: 924464547479758772}
   hitsToDestroy: 2
   points: 20
+  ballPower: 1
+  gameData: {fileID: 11400000, guid: 28a3c8bf21471ea4d924fed458d96ab2, type: 2}

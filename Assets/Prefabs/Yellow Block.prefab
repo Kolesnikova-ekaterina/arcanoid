@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3001802996179922039}
   - component: {fileID: 5327622645979987847}
   - component: {fileID: 2552558442300088367}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Yellow Block
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,6 +101,7 @@ MonoBehaviour:
   textObject: {fileID: 0}
   hitsToDestroy: 1
   points: 10
+  ballPower: 1
 --- !u!61 &2552558442300088367
 BoxCollider2D:
   m_ObjectHideFlags: 0
