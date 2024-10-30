@@ -14,7 +14,7 @@ public class BlockScript : MonoBehaviour
     public int ballPower;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         if (textObject != null)
         {
@@ -29,6 +29,7 @@ public class BlockScript : MonoBehaviour
     }
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
+        
         {
             hitsToDestroy-=ballPower;
             if (hitsToDestroy <= 0)
@@ -44,7 +45,7 @@ public class BlockScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         
     }

@@ -5,10 +5,15 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - bluePrefab: {fileID: 6889181636742124104, guid: a75b24c02aeb4fe42a1536c5899625b5, type: 3}
+  - ExtrabluePrefab: {fileID: 6889181636742124104, guid: d3118f8d3ec3b594181d96ed480cbea4, type: 3}
   - redPrefab: {fileID: 1270385355191258001, guid: 2c2ac31ac4835df40acb960aa96bbd87, type: 3}
   - greenPrefab: {fileID: 9163486918007037734, guid: 77d6aac1c195d5e46804d8faeb026f08, type: 3}
   - yellowPrefab: {fileID: 4649770862032374770, guid: 74abf1c4bde4a9d40be88330dd0f4a26, type: 3}
   - ballPrefab: {fileID: 2697626010502163897, guid: 610a856922e63c44391923556d183942, type: 3}
+  - gameData: {instanceID: 0}
+  - pointSound: {instanceID: 0}
+  - pausePanel: {instanceID: 0}
+  - newRecordCard: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

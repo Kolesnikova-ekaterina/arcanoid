@@ -12,6 +12,7 @@ public class PlayerScript : MonoBehaviour
     public int level = 1;
     public float ballVelocityMult = 0.02f;
     public GameObject bluePrefab;
+    public GameObject ExtrabluePrefab;
     public GameObject redPrefab;
     public GameObject greenPrefab;
     public GameObject yellowPrefab;
@@ -51,6 +52,42 @@ public class PlayerScript : MonoBehaviour
                 Destroy(obj);
             }
     }
+
+    void CreateExtraBlocks(GameObject prefab, float xMax, float yMax,
+ int count, int maxCount)
+    {
+        if (count > maxCount)
+            count = maxCount;
+        for (int i = 0; i < count; i++)
+            for (int k = 0; k < 20; k++)
+            {
+                var x1 = Random.value * xMax;
+                var y1 = Random.value * yMax;
+                var objstart = Instantiate(prefab,
+                new Vector3(x1, y1, 0),
+                Quaternion.identity);
+
+                var x2 = - Random.value * xMax;
+                var y2 = Random.value * yMax;
+                var objstop = Instantiate(prefab,
+                new Vector3(x2, y2, 0),
+                Quaternion.identity);
+                //print($"{x1},{y1},{x2},{y2}");
+                if (objstart.GetComponent<Collider2D>()
+                .OverlapCollider(contactFilter.NoFilter(), colliders) == 0 &&
+                objstop.GetComponent<Collider2D>()
+                .OverlapCollider(contactFilter.NoFilter(), colliders) == 0)
+                {
+                    objstart.GetComponent<ExtraBlueBlockScript>().direction = new Vector2(x2 - x1, y2 - y1);
+                    objstart.GetComponent<ExtraBlueBlockScript>().pos1 = new Vector2(x1, y1);
+                    objstart.GetComponent<ExtraBlueBlockScript>().pos2 = new Vector2(x2, y2);
+                    Destroy(objstop);
+                    break;
+                }
+                Destroy(objstart);
+                Destroy(objstop);
+            }
+    }
     void CreateBalls()
     {
         int count = 2;
@@ -79,6 +116,7 @@ public class PlayerScript : MonoBehaviour
         CreateBlocks(redPrefab, xMax, yMax, 1 + level, 10);
         CreateBlocks(greenPrefab, xMax, yMax, 1 + level, 12);
         CreateBlocks(yellowPrefab, xMax, yMax, 2 + level, 15);
+        CreateExtraBlocks(ExtrabluePrefab, xMax, yMax, level / 10 + 1 , 3);
         CreateBalls();
     }
     
