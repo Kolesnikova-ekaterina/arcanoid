@@ -27,6 +27,7 @@ public class PlayerScript : MonoBehaviour
     public AudioClip pointSound;
 
     public GameObject pausePanel;
+    public GameObject endPanel;
     public GameObject newRecordCard;
     
     int requiredPointsToBall
@@ -184,8 +185,7 @@ public class PlayerScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.S))
             gameData.sound = !gameData.sound;
-       
-        //pausePanel = GameObject.Find("PanelPause");
+        
         
         if (Input.GetButtonDown("Pause"))
             if (Time.timeScale > 0)
@@ -235,7 +235,14 @@ public class PlayerScript : MonoBehaviour
         {
             if (level < maxLevel)
                 gameData.level++;
-            SceneManager.LoadScene("SampleScene");
+            else 
+            {
+                Time.timeScale = 0;
+                endPanel.SetActive(true);
+                Cursor.visible = true;
+            }
+            if(Time.timeScale > 0)
+                SceneManager.LoadScene("SampleScene");
         }
 
     }
@@ -295,6 +302,14 @@ public class PlayerScript : MonoBehaviour
         pausePanel.SetActive(false);
         Cursor.visible = false;
     }
+    
+    public void RestartThisLevel()
+    {
+        Time.timeScale = 1;
+        pausePanel.SetActive(false);
+        Cursor.visible = false;
+        SceneManager.LoadScene("SampleScene");
+    }
 
     public void StartNewGame()
     {
@@ -308,7 +323,6 @@ public class PlayerScript : MonoBehaviour
     public void MoveStartScreen()
     {
         UpdateTopIfNeeded();
-        //print($"MoveStartScreen {gameData.topResults.Count}");
         Time.timeScale = 1;
         Thread.Sleep(1000);
         SceneManager.LoadScene("StartMenu");
@@ -316,7 +330,6 @@ public class PlayerScript : MonoBehaviour
 
     private void UpdateTopIfNeeded()
     {
-        //print("UpdateTopIfNeeded");
         if (gameData.topResults.Count == 0 || gameData.points > gameData.topResults.Last().Item2)
         {
             newRecordCard.SetActive(true);
@@ -324,19 +337,12 @@ public class PlayerScript : MonoBehaviour
         }
 
         gameData.topResults.Add(new(gameData.nickName, gameData.points));
-        //print($"{gameData.nickName} : {gameData.points}");
-        //print($"vvv {gameData.topResults.Last().Item1} : {gameData.topResults.Last().Item2}");
         gameData.topResults.Sort((tuple, tuple1) => tuple1.Item2.CompareTo(tuple.Item2));
         if (gameData.topResults.Count > 5)
         {
             gameData.topResults.RemoveAt(gameData.topResults.Count - 1);
         }
-        //print($"sss {gameData.topResults.Last().Item1} : {gameData.topResults.Last().Item2}");
-        
-        Thread.Sleep(1000);
         gameData.Save();
-        Thread.Sleep(1000);
-        //print($"kkk {gameData.topResults.Last().Item1} : {gameData.topResults.Last().Item2}");
     }
 
     IEnumerator HidePanel()

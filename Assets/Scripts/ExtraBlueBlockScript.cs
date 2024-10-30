@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ExtraBlueBlockScript : BlockScript
 {
-    public float speed = 5.0f;
+    public float speed = 0.5f;
     public Vector2 direction;
     public Vector2 pos1, pos2;
     private Rigidbody2D rb;
@@ -13,8 +13,7 @@ public class ExtraBlueBlockScript : BlockScript
     protected override void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerScript = GameObject.FindGameObjectWithTag("Player")
- .GetComponent<PlayerScript>();
+        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
         
     }
     private bool onthepose()

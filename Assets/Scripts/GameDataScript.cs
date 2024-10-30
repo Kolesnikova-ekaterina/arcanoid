@@ -40,8 +40,11 @@ public class GameDataScript : ScriptableObject
         pointsToBall = PlayerPrefs.GetInt("pointsToBall", 0);
         music = PlayerPrefs.GetInt("music", 1) == 1;
         sound = PlayerPrefs.GetInt("sound", 1) == 1;
-        PlayerPrefs.SetString("top",
-            string.Join(',', topResults.Select(pair => pair.Item1 + '-' + pair.Item2).ToList()));
+        topResults = PlayerPrefs.GetString("top").Split(',').Where(s => s.Length > 0).Select(pair =>
+        {
+            var d = pair.Split('-');
+            return new Tuple<string, int>(d[0], int.Parse(d[1]));
+        }).ToList();
     }
     public void Save()
     {
@@ -51,14 +54,9 @@ public class GameDataScript : ScriptableObject
         PlayerPrefs.SetInt("pointsToBall", pointsToBall);
         PlayerPrefs.SetInt("music", music ? 1 : 0);
         PlayerPrefs.SetInt("sound", sound ? 1 : 0);
-        Console.Out.Write(topResults.Count);
+        PlayerPrefs.SetString("top",
+            string.Join(',', topResults.Select(pair => pair.Item1 + '-' + pair.Item2).ToList()));
         
-        topResults = PlayerPrefs.GetString("top").Split(',').Where(s => s.Length > 0).Select(pair =>
-        {
-            var d = pair.Split('-');
-            return new Tuple<string, int>(d[0], int.Parse(d[1]));
-        }).ToList();
-        Console.Out.Write(topResults.Count);
     }
     
     public BonusBase GetRandomBonus()
