@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ce39f70aa8dbf49a224b90df5f2449, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  music: 1
-  sound: 1
-  pointsToBall: 190
+  music: 0
+  sound: 0
+  pointsToBall: 290
   resetOnStart: 0
-  level: 4
-  balls: 1
-  points: 1510
+  level: 1
+  balls: 6
+  points: 290
   bonuses:
   - {fileID: 4030223820652158390, guid: 74de4fa657b7c354b85d441c80abc18a, type: 3}
   - {fileID: 1557232789203785773, guid: 3a76aa537e1468a409dd31c37e75efb3, type: 3}
@@ -26,4 +26,4 @@ MonoBehaviour:
   fireBonusChance: 5
   steelBonusChance: 5
   normBonusChance: 5
-  nickName: noname
+  nickName: tu
