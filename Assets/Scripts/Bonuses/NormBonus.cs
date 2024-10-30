@@ -16,5 +16,10 @@ public class NormBonus : BonusBase
         {
             block.GetComponent<BlockScript>().ballPower = 1;
         }
+        GameObject[] blue_blocks = GameObject.FindGameObjectsWithTag("BlueBlock");
+        foreach (GameObject block in blue_blocks)
+        {
+            block.GetComponent<BlockScript>().ballPower = 1;
+        }
     }
 }

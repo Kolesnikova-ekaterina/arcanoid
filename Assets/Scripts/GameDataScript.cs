@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Linq;
+
 [CreateAssetMenu(fileName = "GameData", menuName = "Game Data", order = 51)]
 public class GameDataScript : ScriptableObject
 {
@@ -19,6 +22,9 @@ public class GameDataScript : ScriptableObject
     public int steelBonusChance;
     public int normBonusChance;
 
+    public List<Tuple<string, int>> topResults = new();
+    public string nickName = "";
+    
     public void Reset()
     {
         level = 1;
@@ -34,6 +40,8 @@ public class GameDataScript : ScriptableObject
         pointsToBall = PlayerPrefs.GetInt("pointsToBall", 0);
         music = PlayerPrefs.GetInt("music", 1) == 1;
         sound = PlayerPrefs.GetInt("sound", 1) == 1;
+        PlayerPrefs.SetString("top",
+            string.Join(',', topResults.Select(pair => pair.Item1 + '-' + pair.Item2).ToList()));
     }
     public void Save()
     {
@@ -43,11 +51,20 @@ public class GameDataScript : ScriptableObject
         PlayerPrefs.SetInt("pointsToBall", pointsToBall);
         PlayerPrefs.SetInt("music", music ? 1 : 0);
         PlayerPrefs.SetInt("sound", sound ? 1 : 0);
+        Console.Out.Write(topResults.Count);
+        
+        topResults = PlayerPrefs.GetString("top").Split(',').Where(s => s.Length > 0).Select(pair =>
+        {
+            var d = pair.Split('-');
+            return new Tuple<string, int>(d[0], int.Parse(d[1]));
+        }).ToList();
+        Console.Out.Write(topResults.Count);
     }
+    
     public BonusBase GetRandomBonus()
     {
         int totalChance = fireBonusChance + steelBonusChance + normBonusChance;
-        int randomValue = Random.Range(0, totalChance);
+        int randomValue = UnityEngine.Random.Range(0, totalChance);
         if (randomValue < fireBonusChance)
         {
             return bonuses[0];

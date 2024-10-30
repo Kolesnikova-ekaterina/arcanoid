@@ -8,6 +8,7 @@ TagManager:
   - Ball
   - Block
   - Bonus
+  - BlueBlock
   layers:
   - Default
   - TransparentFX

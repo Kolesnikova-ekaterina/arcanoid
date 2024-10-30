@@ -14,7 +14,6 @@ public class GreenBlockScript : BlockScript
             if (hitsToDestroy <= 0)
             {
                 hitsToDestroy = int.MaxValue;
-                print(points);
                 Destroy(gameObject);
                 Instantiate(gameData.GetRandomBonus(), transform.position, transform.rotation);
                 playerScript.BlockDestroyed(points);

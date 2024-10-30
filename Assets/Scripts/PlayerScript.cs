@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System.Threading;
 using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
@@ -14,12 +16,18 @@ public class PlayerScript : MonoBehaviour
     public GameObject greenPrefab;
     public GameObject yellowPrefab;
     public GameObject ballPrefab;
+    
     static Collider2D[] colliders = new Collider2D[50];
     static ContactFilter2D contactFilter = new ContactFilter2D();
     public GameDataScript gameData;
     static bool gameStarted = false;
+    
     AudioSource audioSrc;
     public AudioClip pointSound;
+
+    public GameObject pausePanel;
+    public GameObject newRecordCard;
+    
     int requiredPointsToBall
     { get { return 400 + (level - 1) * 20; } }
 
@@ -73,6 +81,7 @@ public class PlayerScript : MonoBehaviour
         CreateBlocks(yellowPrefab, xMax, yMax, 2 + level, 15);
         CreateBalls();
     }
+    
     void Start()
     {
         audioSrc = Camera.main.GetComponent<AudioSource>();
@@ -86,7 +95,9 @@ public class PlayerScript : MonoBehaviour
         level = gameData.level;
         SetMusic();
         StartLevel();
+        
     }
+    
     void SetMusic()
     {
         if (gameData.music)
@@ -94,6 +105,7 @@ public class PlayerScript : MonoBehaviour
         else
             audioSrc.Stop();
     }
+    
     void OnApplicationQuit()
     {
         gameData.Save();
@@ -107,6 +119,7 @@ public class PlayerScript : MonoBehaviour
             gameData.Reset();
             SceneManager.LoadScene("SampleScene");
         }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
@@ -119,7 +132,7 @@ public class PlayerScript : MonoBehaviour
         if (Time.timeScale > 0)
         {
             var mousePos = Camera.main
-            .ScreenToWorldPoint(Input.mousePosition);
+                .ScreenToWorldPoint(Input.mousePosition);
             var pos = transform.position;
             pos.x = mousePos.x;
             transform.position = pos;
@@ -130,15 +143,31 @@ public class PlayerScript : MonoBehaviour
             gameData.music = !gameData.music;
             SetMusic();
         }
+
         if (Input.GetKeyDown(KeyCode.S))
             gameData.sound = !gameData.sound;
+       
+        //pausePanel = GameObject.Find("PanelPause");
+        
         if (Input.GetButtonDown("Pause"))
             if (Time.timeScale > 0)
+            {
                 Time.timeScale = 0;
+                if (pausePanel != null)
+                {
+                    pausePanel.SetActive(true);
+                    Cursor.visible = true;
+                }
+            }
             else
+            {
                 Time.timeScale = 1;
+                pausePanel.SetActive(false);
+                Cursor.visible = false;
+            }
+    
 
-    }
+}
     IEnumerator BallDestroyedCoroutine()
     {
         yield return new WaitForSeconds(0.1f);
@@ -147,6 +176,8 @@ public class PlayerScript : MonoBehaviour
                 CreateBalls();
             else
             {
+                UpdateTopIfNeeded();
+                
                 gameData.Reset();
                 SceneManager.LoadScene("SampleScene");
             }
@@ -218,4 +249,62 @@ public class PlayerScript : MonoBehaviour
              OnOff(Time.timeScale > 0), OnOff(!gameData.music),
              OnOff(!gameData.sound)), style);
     }
+    
+    
+    public void ReturnToGame()
+    {
+        Time.timeScale = 1;
+        pausePanel.SetActive(false);
+        Cursor.visible = false;
+    }
+
+    public void StartNewGame()
+    {
+        UpdateTopIfNeeded();
+        Time.timeScale = 1;
+        Thread.Sleep(1000);
+        gameData.Reset();
+        SceneManager.LoadScene("SampleScene");
+    }
+
+    public void MoveStartScreen()
+    {
+        UpdateTopIfNeeded();
+        //print($"MoveStartScreen {gameData.topResults.Count}");
+        Time.timeScale = 1;
+        Thread.Sleep(1000);
+        SceneManager.LoadScene("StartMenu");
+    }
+
+    private void UpdateTopIfNeeded()
+    {
+        //print("UpdateTopIfNeeded");
+        if (gameData.topResults.Count == 0 || gameData.points > gameData.topResults.Last().Item2)
+        {
+            newRecordCard.SetActive(true);
+            StartCoroutine(HidePanel());
+        }
+
+        gameData.topResults.Add(new(gameData.nickName, gameData.points));
+        //print($"{gameData.nickName} : {gameData.points}");
+        //print($"vvv {gameData.topResults.Last().Item1} : {gameData.topResults.Last().Item2}");
+        gameData.topResults.Sort((tuple, tuple1) => tuple1.Item2.CompareTo(tuple.Item2));
+        if (gameData.topResults.Count > 5)
+        {
+            gameData.topResults.RemoveAt(gameData.topResults.Count - 1);
+        }
+        //print($"sss {gameData.topResults.Last().Item1} : {gameData.topResults.Last().Item2}");
+        
+        Thread.Sleep(1000);
+        gameData.Save();
+        Thread.Sleep(1000);
+        //print($"kkk {gameData.topResults.Last().Item1} : {gameData.topResults.Last().Item2}");
+    }
+
+    IEnumerator HidePanel()
+    {
+        yield return new WaitForSeconds(2f);
+        newRecordCard.SetActive(false);
+    }
+    
 }
