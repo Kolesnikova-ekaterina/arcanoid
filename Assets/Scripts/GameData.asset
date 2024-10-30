@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music: 1
   sound: 1
-  pointsToBall: 40
-  resetOnStart: 1
-  level: 1
-  balls: 6
-  points: 40
+  pointsToBall: 190
+  resetOnStart: 0
+  level: 4
+  balls: 1
+  points: 1510
   bonuses:
   - {fileID: 4030223820652158390, guid: 74de4fa657b7c354b85d441c80abc18a, type: 3}
   - {fileID: 1557232789203785773, guid: 3a76aa537e1468a409dd31c37e75efb3, type: 3}
@@ -26,3 +26,4 @@ MonoBehaviour:
   fireBonusChance: 5
   steelBonusChance: 5
   normBonusChance: 5
+  nickName: noname

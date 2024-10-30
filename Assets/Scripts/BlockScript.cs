@@ -34,7 +34,7 @@ public class BlockScript : MonoBehaviour
             if (hitsToDestroy <= 0)
             {
                 hitsToDestroy = int.MaxValue;
-                print(points);
+                
                 Destroy(gameObject);
                 playerScript.BlockDestroyed(points);
             }

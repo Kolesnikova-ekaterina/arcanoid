@@ -16,5 +16,10 @@ public class FireBonus : BonusBase
         {
             block.GetComponent<BlockScript>().ballPower = 4;
         }
+        GameObject[] blue_blocks = GameObject.FindGameObjectsWithTag("BlueBlock");
+        foreach (GameObject block in blue_blocks)
+        {
+            block.GetComponent<BlockScript>().ballPower = 4;
+        }
     }
 }
